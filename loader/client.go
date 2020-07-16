@@ -56,14 +56,14 @@ func client(disableCompression, disableKeepAlive, skipVerify bool, timeoutms int
 	clientCertPool := x509.NewCertPool()
 	clientCertPool.AppendCertsFromPEM(clientCACert)
 	
-	clientSessionCache := tls.NewLRUClientSessionCache(0)
+	clientCache := tls.NewLRUClientSessionCache(0)
 
 	tlsConfig := &tls.Config{
 		Certificates:       []tls.Certificate{cert},
 		RootCAs:            clientCertPool,
 		InsecureSkipVerify: skipVerify,
 		SessionTicketsDisabled: false,
-		ClientSessionCache: clientSessionCache,
+		ClientSessionCache: clientCache,
 	}
 
 	tlsConfig.BuildNameToCertificate()
