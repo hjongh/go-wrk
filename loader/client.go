@@ -30,6 +30,26 @@ func client(disableCompression, disableKeepAlive, skipVerify bool, timeoutms int
 			return util.NewRedirectError("redirection not allowed")
 		}
 	}
+	
+	if skipVerify {
+		clientCache := tls.NewLRUClientSessionCache(0)
+
+		tlsConfig := &tls.Config{
+			InsecureSkipVerify: skipVerify,
+			SessionTicketsDisabled: false,
+			ClientSessionCache: clientCache,
+		}
+
+		t := &http.Transport{
+			TLSClientConfig: tlsConfig,
+		}
+
+		if usehttp2 {
+			http2.ConfigureTransport(t)
+		}
+		client.Transport = t
+		return client, nil
+	}
 
 	if clientCert == "" && clientKey == "" && caCert == "" {
 		return client, nil
