@@ -60,6 +60,7 @@ func client(disableCompression, disableKeepAlive, skipVerify bool, timeoutms int
 		Certificates:       []tls.Certificate{cert},
 		RootCAs:            clientCertPool,
 		InsecureSkipVerify: skipVerify,
+		SessionTicketsDisabled: false,
 	}
 
 	tlsConfig.BuildNameToCertificate()
