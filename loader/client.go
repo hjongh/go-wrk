@@ -20,7 +20,6 @@ func client(disableCompression, disableKeepAlive, skipVerify bool, timeoutms int
 	client.Transport = &http.Transport{
 		DisableCompression:    disableCompression,
 		DisableKeepAlives:     disableKeepAlive,
-		Close: disableKeepAlive,
 		ResponseHeaderTimeout: time.Millisecond * time.Duration(timeoutms),
 		TLSClientConfig:       &tls.Config{InsecureSkipVerify: skipVerify},
 	}
