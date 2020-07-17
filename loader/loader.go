@@ -128,6 +128,10 @@ func DoRequest(httpClient *http.Client, header map[string]string, method, host, 
 	if host != "" {
 		req.Host = host
 	}
+	
+	// disable keepalive on TCP connections
+	req.Close = true;
+	
 	start := time.Now()
 	resp, err := httpClient.Do(req)
 	if err != nil {
